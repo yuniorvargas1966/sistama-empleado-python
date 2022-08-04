@@ -1,4 +1,3 @@
-# Video de ilustracion: https://www.youtube.com/watch?v=gUED5uFmyQI, https://www.youtube.com/watch?v=IgCfZkR8wME
 import http
 from flask import Flask, render_template
 from flask import request, flash, redirect, url_for
