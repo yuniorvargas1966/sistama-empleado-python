@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <!doctype html>
 <html lang="en">
 
@@ -94,59 +93,3 @@
 </body>
 
 </html>
-=======
-{% extends 'empleados/layout.html' %} {% block title %}Editar{% endblock %} {% block body %}
-
-<div class="container">
-    <div class="container">
-        {% with messages = get_flashed_messages() %} {% if messages %} {% for message in messages %}
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-                    <span aria-hidden=""true>&times;</span>
-                </button>
-        </div>
-
-        {% endfor %} {% endif %} {% endwith %} {% for empleado in empleados %}
-
-        <br>
-        <div class="card card-body">
-            <form method="post" action="/update" enctype="multipart/form-data">
-
-                <div class="card">
-
-                    <div class="card-body">
-                        <h5 class="card-title">Datos del Empleado</h5>
-                        <p class="card-text">
-
-
-                            <div class="form-ground">
-                                <label for="txtNombre">Nombre:</label>
-                                <input type="text" value="{{ empleado[1] }}" name="txtNombre" id="txtNombre">
-                            </div>
-                            <br>
-                            <div class="form-ground">
-                                <label for="txtCorreo">Correo:</label>
-                                <input type="text" value="{{ empleado[2] }}" name="txtCorreo" id="txtCorreo">
-                            </div>
-                            <br> Foto:
-
-                            <img class="img-thumbnail" width="100" height="100" src="{{ url_for('uploads', nombreFoto=empleado[3]) }}" alt="">
-                            <input type="file" name="txtFoto" id="txtFoto">
-                            <input type="hidden" value="{{ empleado[0] }}" name="txtID" id="txtID">
-                            <br>
-                            <br/>
-                            <div class="form-group">
-                                <input class="btn btn-success" type="submit" value="Modificar">
-                                <a class="btn btn-primary" href="{{ url_for('index') }}">Regresar</a>
-                            </div>
-                        </p>
-                    </div>
-                </div>
-            </form>
-        </div>
-
-        {% endfor %}
-    </div>
-    {% endblock %}
->>>>>>> f794cea65852b3629ee7e8ff86b32a76e7eb3aae
