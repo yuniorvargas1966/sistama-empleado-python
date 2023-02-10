@@ -12,10 +12,11 @@ app = Flask(__name__)
 app.secret_key = 'mysecretkey'
 
 mysql = MySQL()
-app.config['MYSQL_DATABASE_HOST'] = 'localhost'
+app.config['MYSQL_DATABASE_HOST'] = 'containers-us-west-167.railway.app'
 app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = ''
-app.config['MYSQL_DATABASE_DB'] = 'sistema'
+app.config['MYSQL_DATABASE_PASSWORD'] = 'Bg74vZC6o20LogFMTUkT'
+app.config['MYSQL_PORT'] = '7592'
+app.config['MYSQL_DATABASE_DB'] = 'railway'
 mysql.init_app(app)
 
 CARPETA= os.path.join('uploads')
@@ -141,5 +142,5 @@ def pagina_no_encontrada(error):
       
 if __name__ == '__main__':
     app.register_error_handler(404, pagina_no_encontrada)
-    app.run(debug=True)
+    app.run()
  
