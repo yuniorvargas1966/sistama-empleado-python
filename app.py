@@ -61,7 +61,7 @@ def edit(id):
     cursor.execute("SELECT * FROM empleados WHERE id=%s", (id))
     empleados = cursor.fetchall()
     conn.commit()
-
+    flash('Ahora puede editar este registro...')
     return render_template('empleados/edit.html', empleados=empleados)
 
 @app.route('/update', methods=['POST'])
