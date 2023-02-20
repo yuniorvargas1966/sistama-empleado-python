@@ -14,7 +14,7 @@ app.secret_key = 'mysecretkey'
 mysql = MySQL()
 app.config['MYSQL_DATABASE_HOST'] = 'containers-us-west-167.railway.app'
 app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'Bg74vZC6o20LogFMTUkT'
+app.config['MYSQL_DATABASE_PASSWORD'] = 'vKYINRwWohPOUgyTTiy7'
 app.config['MYSQL_DATABASE_DB'] = 'railway'
 app.config['MYSQL_DATABASE_PORT] = '7592'
 mysql.init_app(app)
