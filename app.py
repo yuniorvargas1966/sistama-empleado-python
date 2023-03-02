@@ -1,22 +1,32 @@
-import http
 from flask import Flask, render_template
 from flask import request, flash, redirect, url_for
 from flask import send_from_directory
-from flaskext.mysql import MySQL
+import pymysql
 from datetime import datetime
+from dotenv import load_dotenv
 import os
+
+load_dotenv()
 
 app = Flask(__name__)
 
 # Settings
-app.secret_key = 'mysecretkey'
+app.secret_key = secret_key = os.getenv('SECRET_KEY')
 
-mysql = MySQL()
-app.config['MYSQL_DATABASE_HOST'] = 'localhost'
-app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = ''
-app.config['MYSQL_DATABASE_DB'] = 'sistema'
-mysql.init_app(app)
+# Configuración de la conexión a la base de datos
+app.config['MYSQL_HOST'] = MYSQL_HOST = os.environ.get('MYSQL_HOST')
+app.config['MYSQL_USER'] = MYSQL_USER = os.environ.get('MYSQL_USER')
+app.config['MYSQL_PASSWORD'] = MYSQL_PASSWORD = os.environ.get('MYSQL_PASSWORD')
+app.config['MYSQL_DB'] = MYSQL_DB = os.environ.get('MYSQL_DB')
+# Función para conectarse a la base de datos
+def connect_to_database():
+    conn = pymysql.connect(
+        host = app.config['MYSQL_HOST'],
+        user = app.config['MYSQL_USER'],
+        password = app.config['MYSQL_PASSWORD'],
+        database = app.config['MYSQL_DB']
+        ) 
+    return conn    
 
 CARPETA= os.path.join('uploads')
 app.config['CARPETA']=CARPETA
@@ -27,20 +37,21 @@ def uploads(nombreFoto):
 
 @app.route('/')
 def index():
-
-    sql = "SELECT * FROM `empleados`;"
-    conn = mysql.connect()
+    conn = connect_to_database()
     cursor = conn.cursor()
-    cursor.execute(sql)
-
+    cursor.execute("SELECT * FROM empleados")
     empleados = cursor.fetchall()
-    
-    conn.commit()
-    return render_template('empleados/index.html', empleados=empleados)
+    insertObject = []
+    columnNames = [column[0] for column in cursor.description]
+    for record in empleados:
+        insertObject.append(dict(zip(columnNames, record))) 
+    cursor.close()
+    conn.close()
+    return render_template('/empleados/index.html', empleados=insertObject)
 
 @app.route('/destroy/<int:id>')
 def destroy(id):
-    conn = mysql.connect()
+    conn = connect_to_database()
     cursor = conn.cursor()
 
     cursor.execute("SELECT foto FROM empleados WHERE id=%s", id)
@@ -54,19 +65,22 @@ def destroy(id):
 
 @app.route('/edit/<int:id>')
 def edit(id):
-
-    conn = mysql.connect()
+    conn = connect_to_database()
     cursor = conn.cursor()
 
     cursor.execute("SELECT * FROM empleados WHERE id=%s", (id))
     empleados = cursor.fetchall()
+    
+    insertObject = []
+    columnNames = [column[0] for column in cursor.description]
+    for record in empleados:
+        insertObject.append(dict(zip(columnNames, record))) 
     conn.commit()
-    flash('Ahora puede editar este registro...')
-    return render_template('empleados/edit.html', empleados=empleados)
+    return render_template('empleados/edit.html', empleados=insertObject)
+    
 
 @app.route('/update', methods=['POST'])
 def update():
-
     _nombre = request.form['txtNombre']
     _correo = request.form['txtCorreo']
     _foto = request.files['txtFoto']
@@ -76,7 +90,7 @@ def update():
     
     datos = (_nombre, _correo,id)
 
-    conn = mysql.connect()
+    conn = connect_to_database()
     cursor = conn.cursor()
 
     now = datetime.now()
@@ -128,7 +142,7 @@ def storage():
     
     datos=(_nombre,_correo,nuevoNombreFoto)
 
-    conn = mysql.connect()
+    conn = connect_to_database()
     cursor = conn.cursor()
     cursor.execute(sql, datos)
     conn.commit()
@@ -141,5 +155,5 @@ def pagina_no_encontrada(error):
       
 if __name__ == '__main__':
     app.register_error_handler(404, pagina_no_encontrada)
-    app.run()
+    app.run(debug=True)
  
