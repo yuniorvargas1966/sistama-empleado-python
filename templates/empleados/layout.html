@@ -28,6 +28,15 @@
     </div>
     {% block body %}
     <div class="container">
+            {% with messages = get_flashed_messages() %} {% if messages %} {% for message in messages %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endfor %} {% endif %} {% endwith %}
+    <div class="container">
         {% endblock %}
         <script src="{{ url_for('static', filename='js/layout.js') }}"></script>
        <!-- Bootstrap JavaScript Libraries -->
