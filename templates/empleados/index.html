@@ -5,11 +5,8 @@
     {% block body %} 
     <div class="container">
         <div class="container">
-            <a class="btn btn-success
-            " href="{{ url_for('create') }}">Ingresa Nuevo Empleado</a>
-            <br>
-            <table class="table table-light">
-                <thead class="thead-light">
+            <table class="table table-bordered">
+                <thead class="text-center">
                     <tr>
                         <th>#</th>
                         <th>Foto</th>
@@ -21,16 +18,17 @@
                 <tbody>
                     {% for empleado in empleados %}
                     <tr>
-                        <td>{{ empleado[0] }}</td>
+                        <td>{{ empleado.id }}</td>
                         <td>
-                            <img width="100" height="100" class="img-thumbnail" src="uploads/{{empleado[3] }}" alt="">
+                            <img width="100" height="100" class="img-thumbnail" src="uploads/{{empleado.foto }}" alt="">
                         </td>
-                        <td>{{ empleado[1] }}</td>
-                        <td>{{ empleado[2] }}</td>
+                        <td>{{ empleado.nombre }}</td>
+                        <td>{{ empleado.correo }}</td>
                         <td>
-                            <a href="/edit/{{empleado[0]}}" class="btn btn-warning">Editar</a> |
-                            <a href="/destroy/{{empleado[0]}}" class="btn btn-danger btnDelete">Eliminar</a>
+                            <a href="/edit/{{empleado.id}}" class="btn btn-warning">Editar</a> |
+                            <a href="/destroy/{{empleado.id}}" class="btn btn-danger btnDelete">Eliminar</a>
                         </td>
+                        
                     </tr>
                     {% endfor %}
                 </tbody>
