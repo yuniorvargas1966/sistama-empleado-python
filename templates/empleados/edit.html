@@ -6,6 +6,7 @@
     <div class="container">
         <div class="container">
             <br>
+            {% for empleado in empleados %}
             <div class="card card-body">
                 <form method="post" action="/update" enctype="multipart/form-data">
                     <div class="card">
@@ -14,17 +15,17 @@
                             <p class="card-text">
                                 <div class="form-ground">
                                     <label for="txtNombre">Nombre:</label>
-                                    <input type="text" value="{{ empleado[1] }}" name="txtNombre" id="txtNombre">
+                                    <input type="text" value="{{ empleado.nombre }}" name="txtNombre" id="txtNombre">
                                 </div>
                                 <br>
                                 <div class="form-ground">
                                     <label for="txtCorreo">Correo:</label>
-                                    <input type="text" value="{{ empleado[2] }}" name="txtCorreo" id="txtCorreo">
+                                    <input type="email" value="{{ empleado.correo }}" name="txtCorreo" id="txtCorreo">
                                 </div>
                                 <br> Foto:
-                                <img class="img-thumbnail" width="100" height="100" src="{{ url_for('uploads', nombreFoto=empleado[3]) }}" alt="">
+                                <img class="img-thumbnail" width="100" height="100" src="{{ url_for('uploads', nombreFoto=empleado.foto) }}" alt="">
                                 <input type="file" name="txtFoto" id="txtFoto">
-                                <input type="hidden" value="{{ empleado[0] }}" name="txtID" id="txtID">
+                                <input type="hidden" value="{{ empleado.id }}" name="txtID" id="txtID">
                                 <br>
                                 <br/>
                                 <div class="form-group">
