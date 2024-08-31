@@ -1,22 +1,9 @@
 <!doctype html>
 <html lang="en">
-
-<head>
-    <title>{% block title %}Sistema-Empleado{% endblock %}</title>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS v5.3.0 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <!-- Bootstrap JavaScript Libraries -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/layout.css')}}">
-
-</head>
-
+{% extends "/empleados/layout.html" %}
 <body>
+    {% block body %}
     <div class="container">
-
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="{{ url_for('index') }}">Gestión de empleados</a>
             <button class="navbar-toggler" data-target="#my-nav" data-toggle="collapse" aria-controls="my-nav" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,7 +20,7 @@
     </div>
     <div class="container">
         <div class="container">
-            {% block body %} {% with messages = get_flashed_messages() %} {% if messages %} {% for message in messages %}
+             {% with messages = get_flashed_messages() %} {% if messages %} {% for message in messages %}
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 {{ message }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
@@ -42,18 +29,13 @@
             </div>
 
             {% endfor %} {% endif %} {% endwith %} {% for empleado in empleados %}
-
             <br>
             <div class="card card-body">
                 <form method="post" action="/update" enctype="multipart/form-data">
-
                     <div class="card">
-
                         <div class="card-body">
                             <h5 class="card-title">Datos del Empleado</h5>
                             <p class="card-text">
-
-
                                 <div class="form-ground">
                                     <label for="txtNombre">Nombre:</label>
                                     <input type="text" value="{{ empleado[1] }}" name="txtNombre" id="txtNombre">
@@ -64,7 +46,6 @@
                                     <input type="text" value="{{ empleado[2] }}" name="txtCorreo" id="txtCorreo">
                                 </div>
                                 <br> Foto:
-
                                 <img class="img-thumbnail" width="100" height="100" src="{{ url_for('uploads', nombreFoto=empleado[3]) }}" alt="">
                                 <input type="file" name="txtFoto" id="txtFoto">
                                 <input type="hidden" value="{{ empleado[0] }}" name="txtID" id="txtID">
@@ -74,22 +55,13 @@
                                     <input class="btn btn-success" type="submit" value="Modificar">
                                     <a class="btn btn-primary" href="{{ url_for('index') }}">Regresar</a>
                                 </div>
-
                         </div>
                     </div>
                 </form>
             </div>
-
             {% endfor %}
-            <script src="{{ url_for('static', filename='js/layout.js') }}"></script>
-            <!-- Bootstrap JavaScript Libraries -->
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
-            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
-
-            {% endblock %}
         </div>
     </div>
+    {% endblock %}
 </body>
-
 </html>
