@@ -52,7 +52,7 @@ def index():
 
 # Ruta para devolver u solo registro
 @app.route('/<int:id>')
-def edit(id):
+def get_datos(id):
     conn = connect_to_database()
     cursor = conn.cursor()
 
