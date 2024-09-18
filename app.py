@@ -35,6 +35,7 @@ app.config['CARPETA']=CARPETA
 def uploads(nombreFoto):
     return send_from_directory(app.config['CARPETA'],nombreFoto)    
 
+# Ruto para devolver todos los registros
 @app.route('/')
 def index():
     conn = connect_to_database()
@@ -48,6 +49,23 @@ def index():
     cursor.close()
     conn.close()
     return render_template('/empleados/index.html', empleados=insertObject)
+
+# Ruta para devolver u solo registro
+@app.route('/<int:id>')
+def edit(id):
+    conn = connect_to_database()
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM empleados WHERE id=%s", (id))
+    empleados = cursor.fetchall()
+    
+    insertObject = []
+    columnNames = [column[0] for column in cursor.description]
+    for record in empleados:
+        insertObject.append(dict(zip(columnNames, record))) 
+    cursor.close()
+    conn.close()
+    return render_template('empleados/index.html', empleados=insertObject)
 
 @app.route('/destroy/<int:id>')
 def destroy(id):
