@@ -51,7 +51,7 @@ def index():
     return render_template('/empleados/index.html', empleados=insertObject)
 
 # Ruta para devolver u solo registro
-@app.route('/<int:id>')
+@app.route('/<int:id>', methods=['GET'])
 def get_datos(id):
     conn = connect_to_database()
     cursor = conn.cursor()
